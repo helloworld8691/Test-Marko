@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Test-Marko</string>
+    <string name="input_username">Please input username</string>
+
+</resources>
