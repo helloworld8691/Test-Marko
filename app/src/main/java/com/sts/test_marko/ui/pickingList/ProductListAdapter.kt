@@ -1,0 +1,38 @@
+package com.sts.test_marko.ui.pickingList
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.sts.test_marko.databinding.ItemProductBinding
+import com.sts.test_marko.model.OrderItem
+import com.sts.test_marko.model.Product
+
+class ProductListAdapter : RecyclerView.Adapter<ProductListAdapter.ViewHolder>(){
+
+    var allData = ArrayList<OrderItem>()
+
+    fun loadData(allData : List<OrderItem>){
+        this.allData.clear()
+        this.allData.addAll(allData)
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(allData[position].product)
+    }
+
+    override fun getItemCount(): Int = allData.size
+
+    inner class ViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(productItem : Product){
+            binding.apply {
+                setProductItem(productItem)
+                executePendingBindings()
+            }
+        }
+    }
+}

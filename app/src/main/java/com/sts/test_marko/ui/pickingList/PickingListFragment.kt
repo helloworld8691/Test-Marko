@@ -10,6 +10,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PickingListFragment : BaseFragment<FrmPickingListBinding>(R.layout.frm_picking_list) {
 
     private val viewModel by viewModel<PickingListViewModel>()
+    private val pickingListAdapter by lazy { PickingListAdapter() }
+
     private val loadingDialog by lazy {
         LoadingDialog(requireActivity()).apply {
             lifecycle.addObserver(this)
@@ -18,9 +20,15 @@ class PickingListFragment : BaseFragment<FrmPickingListBinding>(R.layout.frm_pic
 
     override fun onStart() {
         super.onStart()
+
+        binding.pickingListAdapter = pickingListAdapter
         binding.viewModel = viewModel
 
         viewModel.getData()
         viewModel.isApiRunning.observe(viewLifecycleOwner, Observer { loadingDialog.toggle(it) })
+
+        viewModel.pickingList.observe(viewLifecycleOwner, Observer {
+            pickingListAdapter.loadData(it)
+        })
     }
 }

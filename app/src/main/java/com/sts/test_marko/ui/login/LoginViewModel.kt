@@ -1,9 +1,11 @@
 package com.sts.test_marko.ui.login
 
+import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.sts.test_marko.Utils.toast
 import com.sts.test_marko.api.ApiInterface
 import com.sts.test_marko.api.ApiManager
 import com.sts.test_marko.api.ApiEndpoint
@@ -12,11 +14,11 @@ import com.sts.test_marko.model.WarehouseModel
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import javax.inject.Inject
 
-class LoginViewModel() : ViewModel(), ApiInterface {
+class LoginViewModel (private val context: Context) : ViewModel(), ApiInterface {
 
     val userModel = UserModel()
-    var warehouseModel = WarehouseModel()
 
     val usernameErrorLiveData = MutableLiveData<String>()
     val pwdErrorLiveData = MutableLiveData<String>()
@@ -25,8 +27,14 @@ class LoginViewModel() : ViewModel(), ApiInterface {
 
     fun login(){
         when{
-            TextUtils.isEmpty(userModel.username) -> usernameErrorLiveData.postValue("Please input username")
-            TextUtils.isEmpty(userModel.password) -> pwdErrorLiveData.postValue("Please input password")
+            TextUtils.isEmpty(userModel.username) -> {
+                usernameErrorLiveData.postValue("Please input username")
+                "Please input username".toast(context)
+            }
+            TextUtils.isEmpty(userModel.password) -> {
+                pwdErrorLiveData.postValue("Please input password")
+                "Please input password".toast(context)
+            }
             else -> {
                 val body = mapOf(
                     "grant_type" to "password",
@@ -37,14 +45,6 @@ class LoginViewModel() : ViewModel(), ApiInterface {
                 ApiManager().post(ApiEndpoint.login, body, this)
             }
         }
-    }
-
-    fun getUserDetail(){
-
-    }
-
-    fun getWarehouseDetail(){
-
     }
 
     override fun onRunning() {
@@ -62,6 +62,7 @@ class LoginViewModel() : ViewModel(), ApiInterface {
 
     override fun onError(e: IOException, endpoint: String) {
         isApiRunning.postValue(false)
+        e.localizedMessage.toast(context)
     }
 
 }

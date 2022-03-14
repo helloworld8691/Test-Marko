@@ -1,12 +1,11 @@
 package com.sts.test_marko.api
 
-import android.util.Log
+import android.text.TextUtils
 import com.google.gson.Gson
 import com.sts.test_marko.common.Constants
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import java.io.IOException
-import java.sql.Time
 import java.util.concurrent.TimeUnit
 
 class ApiManager() {
@@ -44,11 +43,21 @@ class ApiManager() {
         })
     }
 
-    public fun get(endpoint: String, apiInterface: ApiInterface) {
+    public fun get(endpoint: String, params: Map<String, String>, apiInterface: ApiInterface) {
+
+        // ** add params into url //
+        var reqParams = ""
+        params.forEach{(key, value) ->
+            reqParams = reqParams.plus(key).plus("=").plus(value).plus("&")
+        }
+        if (!TextUtils.isEmpty(reqParams)){
+           reqParams = reqParams.dropLast(1)
+        }
+        // ** END ** //
 
         val request = Request.Builder()
             .addHeader("Authorization", "Bearer ".plus(bearerToken))
-            .url(Constants.BASE_URL.plus(endpoint)).build()
+            .url(Constants.BASE_URL.plus(endpoint).plus(reqParams)).build()
 
         apiInterface.onRunning()
         client.newCall(request).enqueue(object : Callback{

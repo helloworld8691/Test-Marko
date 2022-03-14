@@ -36,8 +36,4 @@ class LoginFragment : BaseFragment<FrmLoginBinding>(R.layout.frm_login) {
             }
         })
     }
-
-    fun getUser_WarehouseDetail() {
-
-    }
 }
