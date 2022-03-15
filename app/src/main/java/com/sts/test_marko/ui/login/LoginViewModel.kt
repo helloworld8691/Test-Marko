@@ -1,5 +1,6 @@
 package com.sts.test_marko.ui.login
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +11,11 @@ import com.sts.test_marko.api.ApiInterface
 import com.sts.test_marko.api.ApiManager
 import com.sts.test_marko.api.ApiEndpoint
 import com.sts.test_marko.model.UserModel
-import com.sts.test_marko.model.WarehouseModel
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
-import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 class LoginViewModel (private val context: Context) : ViewModel(), ApiInterface {
 
     val userModel = UserModel()
@@ -54,7 +54,7 @@ class LoginViewModel (private val context: Context) : ViewModel(), ApiInterface 
     override fun onSuccess(response: Response, endpoint: String) {
         isApiRunning.postValue(false)
 
-        val jsonRes = JSONObject(response.body?.string()).toString()
+        val jsonRes = JSONObject(response.body!!.string()).toString()
         val data = Gson().fromJson(jsonRes, UserModel::class.java)
 
         bearerToken.postValue(data.access_token)

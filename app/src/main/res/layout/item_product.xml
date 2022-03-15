@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="productItem"
-            type="com.sts.test_marko.model.Product" />
+            type="com.sts.test_marko.model.PickingOrderModel.Product" />
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:gravity="center">
 
         <ImageView
-            android:layout_width="160dp"
-            android:layout_height="120dp" />
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:imageUrl="@{productItem.attributes.image_url}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@{productItem.description}"/>
+            android:text="@{productItem.attributes.attribute}"/>
 
     </LinearLayout>
 

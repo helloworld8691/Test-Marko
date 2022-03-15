@@ -7,10 +7,6 @@
         <variable
             name="pickingOrderItem"
             type="com.sts.test_marko.model.PickingOrderModel" />
-
-        <variable
-            name="productListAdapter"
-            type="com.sts.test_marko.ui.pickingList.ProductListAdapter" />
     </data>
 
     <LinearLayout
@@ -51,10 +47,10 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvProductList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_product"
-            app:productListAdapter="@{productListAdapter}"/>
+            tools:listitem="@layout/item_product"/>
 
         <View
             android:layout_width="match_parent"

@@ -6,6 +6,8 @@ buildscript {
         arch_version = "2.1.0"
         nav_version = "2.4.1"
         koinVersion = '2.0.0-GA'
+        okhttpVersion = '4.9.3'
+        glideVersion = '4.13.0'
     }
     repositories {
         google()

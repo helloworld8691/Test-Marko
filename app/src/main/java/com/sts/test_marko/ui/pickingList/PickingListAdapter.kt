@@ -1,7 +1,9 @@
 package com.sts.test_marko.ui.pickingList
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sts.test_marko.databinding.ItemPickingBinding
 import com.sts.test_marko.model.PickingOrderModel
@@ -10,6 +12,7 @@ class PickingListAdapter : RecyclerView.Adapter<PickingListAdapter.ViewHolder>()
 
     private val allData : MutableList<PickingOrderModel> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun loadData(allData : List<PickingOrderModel>) {
         this.allData.clear()
         this.allData.addAll(allData)
@@ -31,7 +34,10 @@ class PickingListAdapter : RecyclerView.Adapter<PickingListAdapter.ViewHolder>()
         fun bind(pickingOrderItem : PickingOrderModel){
             binding.apply {
 
-                productListAdapter?.loadData(pickingOrderItem.items)
+                val productListAdapter = ProductListAdapter()
+                binding.rcvProductList.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rcvProductList.adapter = productListAdapter
+                productListAdapter.loadData(pickingOrderItem.items)
 
                 setPickingOrderItem(pickingOrderItem)
                 executePendingBindings()

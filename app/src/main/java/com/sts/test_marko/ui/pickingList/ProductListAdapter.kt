@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sts.test_marko.databinding.ItemProductBinding
-import com.sts.test_marko.model.OrderItem
-import com.sts.test_marko.model.Product
+import com.sts.test_marko.model.PickingOrderModel
 
 class ProductListAdapter : RecyclerView.Adapter<ProductListAdapter.ViewHolder>(){
 
-    var allData = ArrayList<OrderItem>()
+    var allData = ArrayList<PickingOrderModel.OrderItem>()
 
-    fun loadData(allData : List<OrderItem>){
+    fun loadData(allData : List<PickingOrderModel.OrderItem>){
         this.allData.clear()
         this.allData.addAll(allData)
         notifyDataSetChanged()
@@ -28,7 +27,7 @@ class ProductListAdapter : RecyclerView.Adapter<ProductListAdapter.ViewHolder>()
     override fun getItemCount(): Int = allData.size
 
     inner class ViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(productItem : Product){
+        fun bind(productItem : PickingOrderModel.Product){
             binding.apply {
                 setProductItem(productItem)
                 executePendingBindings()

@@ -31,12 +31,9 @@ class PickingListViewModel : ViewModel(), ApiInterface {
 
         ApiManager().get(ApiEndpoint.fetch_warehouse, mapOf(),this)
 
-        ApiManager().get(
-            ApiEndpoint.fetch_picking_orders,
-            mapOf(
+        ApiManager().get(ApiEndpoint.fetch_picking_orders, mapOf(
                 "status" to "queue",
-                "warehouse_id" to "817"),
-            this)
+                "warehouse_id" to "817"), this)
     }
 
     override fun onRunning() {
@@ -47,19 +44,19 @@ class PickingListViewModel : ViewModel(), ApiInterface {
         isApiRunning.postValue(false)
 
         if (TextUtils.equals(endpoint, ApiEndpoint.fetch_user)){
-            val jsonRes = JSONObject(response.body?.string()).toString()
+            val jsonRes = JSONObject(response.body!!.string()).toString()
             userModel.postValue(Gson().fromJson(jsonRes, UserModel::class.java))
         }
 
         if (TextUtils.equals(endpoint, ApiEndpoint.fetch_warehouse)) {
-            val jsonRes = JSONObject(response.body?.string()).getJSONArray("warehouses")[0].toString()
+            val jsonRes = JSONObject(response.body!!.string()).getJSONArray("warehouses")[0].toString()
             warehouseModel.postValue(Gson().fromJson(jsonRes, WarehouseModel::class.java))
         }
 
         if (TextUtils.equals(endpoint, ApiEndpoint.fetch_picking_orders)){
 
             var allData = arrayListOf<PickingOrderModel>()
-            val jsonArray = JSONObject(response.body?.string()).getJSONArray("picking_orders")
+            val jsonArray = JSONObject(response.body!!.string()).getJSONArray("picking_orders")
             for (i in 0..jsonArray.length() - 1){
                 val item = Gson().fromJson(jsonArray.getJSONObject(i).toString(), PickingOrderModel::class.java)
                 allData.add(item)
